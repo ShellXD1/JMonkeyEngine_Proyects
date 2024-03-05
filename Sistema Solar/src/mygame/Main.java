@@ -2,6 +2,7 @@ package mygame;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
@@ -9,6 +10,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.texture.Texture;
 import com.jme3.scene.Node;
+import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 
 public class Main extends SimpleApplication {
@@ -49,6 +51,38 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        
+        Node estrellasNodo = new Node("estrellasNodo");
+
+        // Generar estrellas
+        int cantidadEstrellas = 500; // ajusta según sea necesario
+        for (int i = 0; i < cantidadEstrellas; i++) {
+            // Generar una posición aleatoria en el espacio tridimensional
+            float x = FastMath.nextRandomFloat() * 500 - 150; // ajusta según sea necesario
+            float y = FastMath.nextRandomFloat() * 500 - 150; // ajusta según sea necesario
+            float z = FastMath.nextRandomFloat() * 500 - 150; // ajusta según sea necesario
+
+            // Crear una geometría de punto (estrella)
+            Box estrella = new Box(0.1f, 0.1f, 0.1f); // Tamaño del punto (ajusta según sea necesario)
+            Geometry estrellaGeom = new Geometry("estrella_" + i, estrella);
+
+            // Ubicar la estrella en la posición aleatoria generada
+            estrellaGeom.setLocalTranslation(x, y, z);
+
+            // Crear un material para la estrella (punto blanco)
+            Material matEstrella = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+            matEstrella.setColor("Color", ColorRGBA.White); // Estrellas blancas
+            estrellaGeom.setMaterial(matEstrella);
+
+            // Agregar la geometría de la estrella al nodo de estrellas
+            estrellasNodo.attachChild(estrellaGeom);
+        }
+
+        // Agregar el nodo de estrellas al rootNode
+        rootNode.attachChild(estrellasNodo);
+        
+        cam.setLocation(new Vector3f(0f, 20f, 40f));
+        
         // Crear el sol
         Sphere mallaSol = new Sphere(50, 50, 6f);
         geomSol = new Geometry("Sol", mallaSol);
@@ -102,6 +136,8 @@ public class Main extends SimpleApplication {
         
         cam.setLocation(new Vector3f(150, 80, 0)); // Posición de la cámara
         cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y); // Dirección de la cámara (mirando hacia el origen)
+        
+        flyCam.setMoveSpeed(80);
     }
 
     @Override
