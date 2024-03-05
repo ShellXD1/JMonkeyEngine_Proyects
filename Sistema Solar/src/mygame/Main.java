@@ -8,11 +8,8 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.texture.Texture;
 import com.jme3.scene.Node;
+import com.jme3.system.AppSettings;
 
-/**
- * Esta es la Clase Principal de tu Juego. Deberías hacer solo inicialización aquí.
- * Mueve tu Lógica a AppStates o Controls
- */
 public class Main extends SimpleApplication {
     
     private Node nodoTierra;
@@ -40,7 +37,12 @@ public class Main extends SimpleApplication {
     private float factorRadioOrbitaPlaneta = 5f; // Factor de radio de órbita planetaria
     
     public static void main(String[] args) {
+        AppSettings settings = new AppSettings(true);
+        settings.setTitle("Sistema solar");
+        settings.setSettingsDialogImage("Interface/logo.jpeg");
+        
         Main app = new Main();
+        app.setSettings(settings);
         app.start();
     }
 
