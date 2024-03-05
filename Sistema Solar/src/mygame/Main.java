@@ -3,6 +3,7 @@ package mygame;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.math.FastMath;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
@@ -49,7 +50,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         // Crear el sol
-        Sphere mallaSol = new Sphere(30, 30, 2f);
+        Sphere mallaSol = new Sphere(50, 50, 6f);
         geomSol = new Geometry("Sol", mallaSol);
         Material matSol = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         Texture texturaSol = assetManager.loadTexture("Interface/sol.jpg");
@@ -58,31 +59,31 @@ public class Main extends SimpleApplication {
         rootNode.attachChild(geomSol);
 
         // Crear Mercurio
-        geomMercurio = crearPlaneta("Mercurio", 0.3f, "Interface/mercurio.jpg", 3f);
+        geomMercurio = crearPlaneta("Mercurio", 3f, "Interface/mercurio.jpg", 3f);
 
         // Crear Venus
-        geomVenus = crearPlaneta("Venus", 0.5f,  "Interface/venus.png", 6f);
+        geomVenus = crearPlaneta("Venus", 3f,  "Interface/venus.png", 6f);
 
         // Crear la Tierra
-        geomTierra = crearPlaneta("Tierra", 0.5f,  "Interface/tierra.jpg", 9f);
+        geomTierra = crearPlaneta("Tierra", 3f,  "Interface/tierra.jpg", 9f);
 
         // Crear Marte
-        geomMarte = crearPlaneta("Marte", 0.4f,  "Interface/marte.png", 12f);
+        geomMarte = crearPlaneta("Marte", 3f,  "Interface/marte.png", 12f);
 
         // Crear Júpiter
-        geomJupiter = crearPlaneta("Júpiter", 1f,  "Interface/jupiter.jpeg", 15f);
+        geomJupiter = crearPlaneta("Júpiter", 3f,  "Interface/jupiter.jpeg", 15f);
 
         // Crear Saturno
-        geomSaturno = crearPlaneta("Saturno", 0.8f, "Interface/saturno.jpg", 18f);
+        geomSaturno = crearPlaneta("Saturno", 3f, "Interface/saturno.jpg", 18f);
 
         // Crear Urano
-        geomUrano = crearPlaneta("Urano", 0.7f,  "Interface/urano.jpg", 21f);
+        geomUrano = crearPlaneta("Urano", 3f,  "Interface/urano.jpg", 21f);
 
         // Crear Neptuno
-        geomNeptuno = crearPlaneta("Neptuno", 0.7f,  "Interface/neptuno.jpg", 24f);
+        geomNeptuno = crearPlaneta("Neptuno", 3f,  "Interface/neptuno.jpg", 24f);
 
         // Crear Plutón
-        geomPluton = crearPlaneta("Plutón", 0.3f, "Interface/pluton.jpeg", 27f);
+        geomPluton = crearPlaneta("Plutón", 3f, "Interface/pluton.jpeg", 27f);
         
         // Crear un nodo para la Tierra y la Luna
         nodoTierra = new Node("NodoTierra");
@@ -91,13 +92,16 @@ public class Main extends SimpleApplication {
         nodoTierra.attachChild(geomTierra);
 
         // Crear la Luna y ajustar su tamaño
-        geomLuna = crearPlaneta("Luna", 0.1f, "Interface/images.jpeg", 0.5f); // Ajusta el tamaño según tus necesidades
+        geomLuna = crearPlaneta("Luna", 1f, "Interface/images.jpeg", 0.5f); // Ajusta el tamaño según tus necesidades
 
         // Adjuntar la Luna al nodo de la Tierra
         nodoTierra.attachChild(geomLuna);
 
         // Adjuntar el nodo de la Tierra (con la Tierra y la Luna) al nodo principal de la escena
         rootNode.attachChild(nodoTierra);
+        
+        cam.setLocation(new Vector3f(150, 80, 0)); // Posición de la cámara
+        cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y); // Dirección de la cámara (mirando hacia el origen)
     }
 
     @Override
