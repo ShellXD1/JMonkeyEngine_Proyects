@@ -157,22 +157,27 @@ public class TargetPickCursor extends SimpleApplication {
                         CollisionResults results = new CollisionResults();
                         
                         Vector2f click2d = inputManager.getCursorPosition();
-                        // Se proyecta una linea de acuerdo a la posicion de la camara, en la 
-                        //direccion donde la camara esta apuntando
-                        Ray ray = new Ray(cam.getLocation(), cam.getDirection());
-                        //calculamos si esta rayo proyectado hace colision con el objeto
+                        
+                        Vector3f click3d = cam.getWorldCoordinates(
+                            new Vector2f(click2d.getX(), click2d.getY()), 0f);
+                        
+                        Vector3f dir = cam.getWorldCoordinates(
+                            new Vector2f(click2d.getX(), click2d.getY()), 1f).
+                                subtractLocal(click3d);
+                        
+                        Ray ray = new Ray(click3d, dir);
+                        
                         rootNode.collideWith(ray, results);
                         
-                        //Si el usuario ha hecho click en algo, identificaremos la geometria seleccionada
-                        if (results.size()>0){
+                        // Se proyecta una linea de acuerdo a la posicion de la camara, en la 
+                        //direccion donde la camara esta apuntando
+                        if (results.size() > 0) {
                             Geometry target = results.getClosestCollision().getGeometry();
-                            //se implementara la accion identificada
-                            if (target.getName().equals("Red Cube") || target.getName().equals("Yellow Cube")){
-                                target.rotate(0,-intensity,0);//rotar a la izquierda
-                            } else if (target.getName().equals("Blue Cube") || target.getName().equals("Green Cube") ){
-                                target.rotate(0,intensity,0);//rotar a la derecha
+                            if (target.getName().equals("Red Cube")) {
+                                target.rotate(0, -intensity, 0); // rotate left
+                            } else if (target.getName().equals("Blue Cube")) {
+                                target.rotate(0, intensity, 0); // rotate right
                             }
-                            
                             //imprimir los resultdos intermedios de la evaluacion de coliciones 
                             for (int i=0; i < results.size(); i++){
                                 float dist = results.getCollision(i).getDistance();
